@@ -37,10 +37,10 @@ if uploaded_file and api_key:
                 reader = PdfReader(uploaded_file)
                 pdf_text = "".join([page.extract_text() for page in reader.pages])
                 
-                # 2. 設定 Gemini 模型
+                # 2. 設定 Gemini 模型 (已更新為最新版模型)
                 genai.configure(api_key=api_key)
-              model = genai.GenerativeModel(
-    model_name="gemini-2.0-flash",
+                model = genai.GenerativeModel(
+                    model_name="gemini-2.5-flash",
                     generation_config={"response_mime_type": "application/json"}
                 )
                 
@@ -57,7 +57,7 @@ if uploaded_file and api_key:
                   }}
                 ]
                 以下是題目文字：
-                {pdf_text[:30000]} # 避免超過字數，擷取前段
+                {pdf_text[:30000]} 
                 """
                 
                 response = model.generate_content(prompt)
@@ -125,4 +125,4 @@ if st.session_state.wrong_bank:
         mime='text/csv',
     )
 elif not st.session_state.questions:
-    st.info("請從左側欄位輸入 API Key 並上傳 PDF 開始刷題！(電腦版在左側，手機版請點擊左上角箭頭展開側邊欄)")
+    st.info("請從左側欄位輸入 API Key 並上傳 PDF 開始刷題！")
